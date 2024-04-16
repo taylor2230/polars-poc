@@ -2,12 +2,14 @@ mod tasks;
 
 use std::any::Any;
 use std::collections::HashMap;
+use std::env;
 use std::ops::Deref;
 use polars::prelude::*;
 use crate::tasks::task_functions::dataframe_functions::TaskExecution;
 
 fn main() {
-    let csv_path = "/Users/shanetaylor/Downloads/cities.csv";
+    let args: Vec<String> = env::args().collect();
+    let csv_path = args.get(0).unwrap_or_default();
     let df = &mut CsvReader::from_path(csv_path)
         .unwrap()
         .infer_schema(None)
